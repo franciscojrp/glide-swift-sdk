@@ -1,9 +1,10 @@
-
+import Foundation
 
 enum SDKError: Error {
     case statusCode(Int, String)
     case unknown(Error)
     case invalidConfiguration
+    case mobileNetworkConnectionCannotBeEstablished
     
     var localizedDescription: String {
         switch self {
@@ -13,6 +14,8 @@ enum SDKError: Error {
             return "An unknown error occurred: \(error.localizedDescription)"
         case .invalidConfiguration:
             return "The SDK is not configured correctly"
+        case .mobileNetworkConnectionCannotBeEstablished:
+            return "Mobile network connection cannot be established"
         }
     }
 }

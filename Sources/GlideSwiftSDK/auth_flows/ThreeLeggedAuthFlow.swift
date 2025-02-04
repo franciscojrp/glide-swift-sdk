@@ -1,7 +1,5 @@
 import Foundation
 
-let threeLeggedFlowName = "three_legged_flow"
-
 class ThreeLeggedAuthFlow {
     private let cellularDataProvider = CellularDataProvider()
     
@@ -18,7 +16,7 @@ class ThreeLeggedAuthFlow {
     
     private func validateResponse(data: Data, response: URLResponse) throws -> Data {
         guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == successCode else {
+              httpResponse.statusCode == 200 else {
             let error = try? JSONDecoder().decode(APIError.self, from: data)
             throw SDKError.statusCode(
                 (response as? HTTPURLResponse)?.statusCode ?? 0,
@@ -30,7 +28,6 @@ class ThreeLeggedAuthFlow {
     
     private func createRequest(config: ThreeLeggedConfig) throws -> URLRequest {
         guard let url = generateAuthUrl(config: config) else {
-            logger.error("\(threeLeggedFlowName): invalid config")
             throw SDKError.invalidConfiguration
         }
         

@@ -1,7 +1,7 @@
 import Foundation
 import Network
 
-class CellularDataProvider {
+final class CellularDataProvider: Sendable {
     func request(request: URLRequest) async throws -> (data: Data, response: URLResponse) {
         try await performRequest(request: request)
     }
@@ -18,10 +18,14 @@ class CellularDataProvider {
                 case .ready:
                     self?.sendRequest(connection, with: request, host: host, continuation: continuation)
                 case .failed(let error):
+                    print("####### Connection failed: \(error)")
                     continuation.resume(throwing: error)
                 case .waiting(let error):
+                    print("####### Connection waiting: \(error)")
                     connection.cancel()
-                    continuation.resume(throwing: error)
+                case .cancelled:
+                    print("####### Connection cancelled")
+                    continuation.resume(throwing: SDKError.mobileNetworkConnectionCannotBeEstablished)
                 default:
                     break
                 }

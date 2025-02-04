@@ -9,7 +9,6 @@ class GlideRepository: Repository {
     
     func threeLeggedAuthenticate(config: ThreeLeggedConfig) async throws -> (code: String, state: String) {
         let response = try await threeLeggedAuthFlow.authenticate(config: config)
-        logger.info("\(threeLeggedFlowName) success with status: \(response)")
         return (code: response.code, state: response.state)
     }
 }

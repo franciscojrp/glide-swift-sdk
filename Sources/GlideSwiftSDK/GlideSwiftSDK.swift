@@ -2,14 +2,14 @@ import Foundation
 
 public final class Glide {
     
-    public static let instance: Glide! = Glide(repository: GlideRepository(threeLeggedAuthFlow: ThreeLeggedAuthFlow()))
+    @MainActor public static let instance = Glide(repository: GlideRepository(threeLeggedAuthFlow: ThreeLeggedAuthFlow()))
     
     private let repository : Repository
     private var clientId: String!
     private var authBaseUrl: String!
     private var redirectUri: String?
     
-    public static func configure(clientId: String, authBaseUrl: String, redirectUri: String? = nil) {
+    @MainActor public static func configure(clientId: String, authBaseUrl: String, redirectUri: String? = nil) {
         Glide.instance.clientId = clientId
         Glide.instance.redirectUri = redirectUri
         Glide.instance.authBaseUrl = authBaseUrl
