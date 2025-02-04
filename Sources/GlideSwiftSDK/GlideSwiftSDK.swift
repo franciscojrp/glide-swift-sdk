@@ -2,7 +2,7 @@ import Foundation
 
 public final class Glide {
     
-    public static var instance: Glide!
+    public static let instance: Glide! = Glide(repository: GlideRepository(threeLeggedAuthFlow: ThreeLeggedAuthFlow()))
     
     private let repository : Repository
     private var clientId: String!
@@ -10,7 +10,6 @@ public final class Glide {
     private var redirectUri: String?
     
     public static func configure(clientId: String, authBaseUrl: String, redirectUri: String? = nil) {
-        Glide.instance = Glide(repository: GlideRepository(threeLeggedAuthFlow: ThreeLeggedAuthFlow()))
         Glide.instance.clientId = clientId
         Glide.instance.redirectUri = redirectUri
         Glide.instance.authBaseUrl = authBaseUrl
