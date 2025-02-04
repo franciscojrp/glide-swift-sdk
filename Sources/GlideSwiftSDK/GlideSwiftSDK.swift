@@ -1,10 +1,3 @@
-//
-//  File.swift
-//
-//
-//  Created by amir avisar on 20/06/2024.
-//
-
 import Foundation
 
 public final class Glide {
@@ -16,7 +9,7 @@ public final class Glide {
     private var authBaseUrl: String!
     private var redirectUri: String?
     
-  public static func configure(clientId: String, authBaseUrl: String, redirectUri: String? = nil) {
+    public static func configure(clientId: String, authBaseUrl: String, redirectUri: String? = nil) {
         Glide.instance = Glide(repository: GlideRepository(threeLeggedAuthFlow: ThreeLeggedAuthFlow()))
         Glide.instance.clientId = clientId
         Glide.instance.redirectUri = redirectUri
@@ -27,11 +20,15 @@ public final class Glide {
         self.repository = repository
     }
     
-    public func startVerification(state: String, printCode: Bool = false, phoneNumber: String? = nil, completion: @escaping ((code: String, state: String)) -> Void) {
-      let config = ThreeLeggedConfig(state: state, printCode: printCode, authBaseUrl: self.authBaseUrl, clientID: self.clientId, phoneNumber: phoneNumber, redirectUri: self.redirectUri)
-        self.repository.threeLeggedAuthenticate(config: config, completion: completion)
+    public func startVerification(state: String, printCode: Bool = false, phoneNumber: String? = nil) async throws -> (code: String, state: String) {
+        let config = ThreeLeggedConfig(
+            state: state,
+            printCode: printCode,
+            authBaseUrl: self.authBaseUrl,
+            clientID: self.clientId,
+            phoneNumber: phoneNumber,
+            redirectUri: self.redirectUri
+        )
+        return try await self.repository.threeLeggedAuthenticate(config: config)
     }
-    
 }
-
-

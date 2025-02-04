@@ -1,6 +1,6 @@
 import Foundation
 
 protocol Repository {
-    func threeLeggedAuthenticate(config: ThreeLeggedConfig, completion : @escaping ((code: String, state: String)) -> Void)
+    func threeLeggedAuthenticate(config: ThreeLeggedConfig) async throws -> (code: String, state: String) 
 }
 
