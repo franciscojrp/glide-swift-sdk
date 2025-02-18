@@ -19,7 +19,7 @@ final class CellularDataProvider: Sendable {
                     self?.sendRequest(connection, with: request, host: host, continuation: continuation)
                 case .failed(let error):
                     print("####### Connection failed: \(error)")
-                    continuation.resume(throwing: error)
+                    connection.cancel()
                 case .waiting(let error):
                     print("####### Connection waiting: \(error)")
                     connection.cancel()
